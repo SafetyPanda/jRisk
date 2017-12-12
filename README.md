@@ -1,5 +1,5 @@
 # jRisk
-Risk Clone implemented in Java
+A Risk Clone written in Java.
 
 # What Works?
   - Creates a very very very very basic board.
@@ -16,3 +16,8 @@ Risk Clone implemented in Java
   - Create a class for Cards.
   - Link list for info on what territories player owns.
   - Adjacents.
+
+# Questions?
+  - DM me, or Follow my Twitter @TopTierPanda
+  - Feel free to Fork, it's a very good base.
+  - Only for Educational Purposes, not for Cheating.
