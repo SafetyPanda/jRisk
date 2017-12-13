@@ -20,4 +20,4 @@ A Risk Clone written in Java.
 # Questions?
   - DM me, or Follow my Twitter @TopTierPanda
   - Feel free to Fork, it's a very good base.
-  - Only for Educational Purposes, not for Cheating.
+  - Only for Educational Purposes, not for cheating, use it as a reference if you see fit, but don't come crying if you get a zero or expelled.
