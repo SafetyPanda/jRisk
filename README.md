@@ -1,9 +1,10 @@
 # jRisk
-A Risk Clone written in Java.
+A Risk Clone written in Java. Backend at the moment, but will become a full game, using javaFX, when I feel up to implementing that.
+Currently out of town for 9 days so updates will be sporadic.
 
 # What Works?
   - Creates a very very very very basic board.
-  - No adjacents, uses Airlift Variant. (Players can move and attack anywhere on the board).
+  - Adjacents!
   - Whole game works:
       - Creates 2 players
       - Has menu for certain moves
@@ -15,7 +16,7 @@ A Risk Clone written in Java.
   - Implement JavaFx for a nice looking board and a menu for abilities.
   - Create a class for Cards.
   - Link list for info on what territories player owns.
-  - Adjacents.
+  - Let more than two players play. Started work on that. While travelling.
 
 # Questions?
   - DM me, or Follow my Twitter @TopTierPanda
