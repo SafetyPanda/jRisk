@@ -23,6 +23,9 @@ public class RiskGame
 	public static void playGame()
 	{
 		char answer = 'n'; //Does the user want to see rules?
+		int players = 0;
+		
+		
 		
 		Player[] playerList = new Player[2];
 		Territory[][] territories = new Territory[MAX_Y][MAX_X];
@@ -36,7 +39,10 @@ public class RiskGame
 			rules();
 		}
 		
-		preGame(playerList, territories);
+		//System.out.println("How many people are playing?");
+		//players = input.nextInt ( );
+		
+		preGame(playerList, territories, players);
 		actualGame(playerList, territories);
 		credits();
 		
@@ -47,22 +53,30 @@ public class RiskGame
 	//Parameters:playerList- array of players territories- Array of territories
 	//Return: N/A
 	//Description: Sets up the game, creates players, creates territories, and sets the initial armies.
-	public static void preGame(Player[] playerList, Territory[][] territories)
+	public static void preGame(Player[] playerList, Territory[][] territories, int players)
 	{
-		createPlayers(playerList);
+		createPlayers(playerList, players);
 		createTerritory(playerList, territories);
 		setInitialArmies(playerList[0], playerList[1], territories);
 	}
 	
 	//Author: Isaac Haas
+	//Modified by James Gillman - 
 	//MethodName: createPlayers
 	//Parameters: playerList
 	//Return:N/A
 	//Description: Creates an array of players.
-	public static void createPlayers(Player []playerList)
+	public static void createPlayers(Player []playerList, int players)
 	{	
-		playerList[0] = new Player(1);
-		playerList[1] = new Player(2);
+		//int playerNum = 1;
+		//for (int i = 0; i < players; i++)
+		//{
+			//playerList[0] = new Player(playerNum);
+			//playerNum++;
+		//}
+			
+		playerList [0] = new Player (1);
+		playerList[1] = new Player (2);
 	}
 	
 	//Author: James Gillman
@@ -259,8 +273,10 @@ public class RiskGame
 		System.out.println("You're territories have trained " + playerList[player - 1].getArmies ( ) + " armies for you to reinforce our Motherland with.");
 		do
 		{
+			
 			System.out.println("Choose x-Axis.");
 			xChoice = input.nextInt();
+			
 			System.out.println("Choose y-Axis.");
 			yChoice = input.nextInt ( );
 			
@@ -458,23 +474,31 @@ public class RiskGame
 		Player playerNumber; //Which player is playing?
 		char attack = 'y'; //For timeToDuel method to figure out how many dice is needed. 
 		char defend = 'n'; //For timeToDuel method to figure out how many dice is needed.
-		int x; //Chosen x Coordinate
-		int y; //Chosen y coordinate
+		int x = -1; //Chosen x Coordinate
+		int y = -1; //Chosen y coordinate
 		
 		player--;
 		int attacker = -1; //Dice roll of attacker
 		int defender = -1; //Dice roll of defender
 		int dyingArmies; //How many armies died?
 		int remainingArmy; //How many armies remained?
-		
+		boolean adjacent = false; //Coordinates chosen is adjacent?
+		int attempts = 0;
 		
 		playerNumber = playerList[player];
 		printBoard(territories);
-		System.out.println("X-Axis?");
-		x = input.nextInt ( );
+		do
+		{
+			System.out.println("X-Axis?");
+			x = input.nextInt ( );
 		
-		System.out.println("Y-Axis?");
-		y = input.nextInt ( );
+			System.out.println("Y-Axis?");
+			y = input.nextInt ( );
+			adjacent = isAdjacent(territories, xChoice, yChoice, x, y);
+			
+			attempts ++; //VERY VERY VERY TEMPORARY
+			
+		}while(adjacent == false || attempts < 3);
 		
 		while(player + 1 == territories[y][x].getPlayerOwns().getPlayerNumber ( ))
 		{
@@ -638,7 +662,7 @@ public class RiskGame
 			System.out.println("Every turn each player is given their territories they own divided by 3, or a minimum of 3, whichever is higher.");
 			System.out.println("Turn 1 is dedicated to adding armies to board. Afterwards you can move, attack, etc. ");
 			System.out.println("Attack is in one turn. If attacker loses they lose half of their armies that were in the attack, if defender wins they lose no armies. Defenders always win ties.");
-			System.out.println("Using Airlift Variant on attack, meaning player can attack any opponent territory.");
+			System.out.println("Attckers have to attack a territory adjacent to you..");
 			System.out.println("Using Airlift Variant on movement, player came move armies to any of their territories, 1 has to stay on orignal terrtory.");
 			System.out.println("The winner is given when one player captures the whole map. Game will end.");
 			System.out.println("Change these rules to if you see fit.");
@@ -661,8 +685,45 @@ public class RiskGame
 				"  | | | \\ \\| \\__ \\   < \n" + 
 				"  | |_|  \\_\\_|___/_|\\_\\\n" + 
 				" _/ |                  \n" + 
-				"|__/ Concept Version 1.0 \n");
+				"|__/ Concept Version 1.1 \n");
 		System.out.println("Press Enter to start the game...");
 	}
+	//Author: James Gillman
+	//Method Name: isAdjacent
+	//Parameters:territories, xChoice, yChoice, x, y
+	//Return:boolean 
+	//Description: Checks and See's if territory is adjacent
+	public static boolean isAdjacent(Territory [][]territories, int xChoice, int yChoice, int x, int y)
+	{
+		boolean adjacent = false;
+		boolean checkX = false;
+		boolean checkY = true;
+		
+		if (xChoice == x ||xChoice + 1 == x || xChoice -1 == x)
+		{
+			checkX = true;
+		}
+		
+		if(yChoice == y || yChoice + 1 == y || yChoice -1 == y)
+		{
+			checkY = true;
+		}
+		
+		if(checkX == true && checkY == true)
+		{
+			adjacent = true;
+		}
+		
+		else
+		{
+			System.out.println("That territory isn't next to you!");
+		}
+		
+		return adjacent;
+	}
+
+
+
+
 
 }
