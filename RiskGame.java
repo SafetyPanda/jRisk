@@ -1,5 +1,5 @@
 //James Gillman
-//Dec 11th 2017
+//Dec 28th 2017
 //Final Project
 //Contains all of the rule set for jRisk and how its played.
 
