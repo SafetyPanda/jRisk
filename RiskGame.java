@@ -136,7 +136,7 @@ public class RiskGame
 				randY = (int)(Math.random() * MAX_Y);
 				randX = (int)(Math.random() * MAX_X);
 			}
-			territories[randY][randX].setPlayerOwns( (i%2 == 0)? p1:p2); //i%2 == 0)? p1:p2
+			territories[randY][randX].setPlayerOwns( (i%2 == 0)? p1:p2);//i%2 == 0)? p1:p2
 			territories[randY][randX].setArmies ( 1 );
 			territories[randY][randX].setxCoord ( randX); // Added by James
 			territories[randY][randX].setyCoord ( randY); // Added by James
@@ -495,10 +495,9 @@ public class RiskGame
 			System.out.println("Y-Axis?");
 			y = input.nextInt ( );
 			adjacent = isAdjacent(territories, xChoice, yChoice, x, y);
+			System.out.println(adjacent);
 			
-			attempts ++; //VERY VERY VERY TEMPORARY
-			
-		}while(adjacent == false || attempts < 3);
+		}while(adjacent == false);
 		
 		while(player + 1 == territories[y][x].getPlayerOwns().getPlayerNumber ( ))
 		{
@@ -537,7 +536,7 @@ public class RiskGame
 	//Description: Rolls dice based on how many armies they have and if they are an attack or defender.
 	public static int itsTimeToDuel(char attackDefend)
 	{
-		int dice = 0; //a single dye 1 - 6 to be rolled.
+		int dice = 0; //a dye to be rolled.
 		int diceRoll = 0; // sum of all dice rolls.
 		
 		dice = (int) (Math.random() *12);
@@ -685,7 +684,7 @@ public class RiskGame
 				"  | | | \\ \\| \\__ \\   < \n" + 
 				"  | |_|  \\_\\_|___/_|\\_\\\n" + 
 				" _/ |                  \n" + 
-				"|__/ Concept Version 1.1 \n");
+				"|__/ Concept Version 1.2 \n");
 		System.out.println("Press Enter to start the game...");
 	}
 	//Author: James Gillman
@@ -697,14 +696,14 @@ public class RiskGame
 	{
 		boolean adjacent = false;
 		boolean checkX = false;
-		boolean checkY = true;
+		boolean checkY = false;
 		
-		if (xChoice == x ||xChoice + 1 == x || xChoice -1 == x)
+		if (xChoice == x ||xChoice + 1 == x || xChoice -1 == x || (xChoice == 5 && x == 0) || (xChoice == 0 && x ==5))
 		{
 			checkX = true;
 		}
 		
-		if(yChoice == y || yChoice + 1 == y || yChoice -1 == y)
+		if(yChoice == y || yChoice + 1 == y || yChoice -1 == y||(yChoice == 6 && y == 0) || (yChoice == 0 && y ==6))
 		{
 			checkY = true;
 		}
@@ -721,9 +720,4 @@ public class RiskGame
 		
 		return adjacent;
 	}
-
-
-
-
-
 }
