@@ -43,6 +43,7 @@ public class RiskGame
 		//players = input.nextInt ( );
 		
 		preGame(playerList, territories, players);
+		projectBlossom(territories);
 		actualGame(playerList, territories);
 		credits();
 		
@@ -483,7 +484,6 @@ public class RiskGame
 		int dyingArmies; //How many armies died?
 		int remainingArmy; //How many armies remained?
 		boolean adjacent = false; //Coordinates chosen is adjacent?
-		int attempts = 0;
 		
 		playerNumber = playerList[player];
 		printBoard(territories);
@@ -687,6 +687,7 @@ public class RiskGame
 				"|__/ Concept Version 1.2 \n");
 		System.out.println("Press Enter to start the game...");
 	}
+	
 	//Author: James Gillman
 	//Method Name: isAdjacent
 	//Parameters:territories, xChoice, yChoice, x, y
@@ -719,5 +720,50 @@ public class RiskGame
 		}
 		
 		return adjacent;
+	}
+	
+	//Authored By: James Gillman
+	//MethodName: projectBlossom
+	//Parameters:
+	//Return: moveChoice
+	//Description: AI using weight to determine a move.
+	public static int projectBlossom(Territory [][]territories)
+	{
+		int moveChoice = 0;
+		int [][]blossomArray = new int[MAX_Y][MAX_X];
+		
+		firstPetal(blossomArray,territories);
+		
+		
+			
+		return moveChoice;
+	}
+	
+	public static void firstPetal(int [][]blossomArray, Territory [][]territories)
+	{
+		for( int y = 0; y < MAX_Y; y++ ) //Get player owns from array.
+		{	
+			
+			for ( int x = 0; x < MAX_X; x++)
+			{	
+				blossomArray[y][x] = territories[y][x].getPlayerOwns().getPlayerNumber();
+			}
+	
+		}
+		
+		for( int y = 0; y < MAX_Y; y++ ) //filling player 1 spots with army size.
+		{	
+			for ( int x = 0; x < MAX_X; x++)
+			{	
+				if (blossomArray[y][x] == 2)
+				{
+					blossomArray[y][x] = -1;
+				}
+				else
+				{
+					blossomArray[y][x] = territories[y][x].getArmies();
+				}
+			}
+		}
 	}
 }
