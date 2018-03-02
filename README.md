@@ -15,11 +15,11 @@ Updates most likely will be sporadic.
   
 # To Do:
 
-- AI
-  - Implement JavaFx for a nice looking board and a menu for abilities.
-  - Create a class for Cards.
-  - Link list for info on what territories player owns.
-  - Let more than two players play. Started work on that. While travelling.
+- AI (IN PROGRESS).
+- Implement JavaFx for a nice looking board and a menu for abilities.
+- Create a class for Cards. (CREATED, BUT DOES NOTHING)
+- Link list for info on what territories player owns.
+- Let more than two players play. Started work on that. While travelling.
 
 # Questions?
   - Feel free to Fork, it's a very good base.
