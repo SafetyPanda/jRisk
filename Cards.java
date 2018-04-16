@@ -2,7 +2,8 @@
 public class Cards 
 {
 	private String cardType;
-	private int cardNumber;
+	private int cardsRemaning;
+	private int 
 	
 	
 	

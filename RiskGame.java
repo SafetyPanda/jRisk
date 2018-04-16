@@ -29,6 +29,7 @@ public class RiskGame
 		
 		Player[] playerList = new Player[2];
 		Territory[][] territories = new Territory[MAX_Y][MAX_X];
+		int [][]blossomArray = new int[MAX_Y][MAX_X];
 		
 		makeLogo();
 		input.nextLine();
@@ -43,7 +44,7 @@ public class RiskGame
 		//players = input.nextInt ( );
 		
 		preGame(playerList, territories, players);
-		projectBlossom(territories);
+		projectBlossom(blossomArray, territories);
 		actualGame(playerList, territories);
 		credits();
 		
@@ -204,6 +205,28 @@ public class RiskGame
 		}	
 	}
 	
+	public static void printBoard(int [][]territories)
+	{
+		System.out.print ( "     ");
+		for( int x = 0; x < MAX_X; x++)
+		{
+			System.out.print (x + "   ");
+		}
+		System.out.println();
+		System.out.println("___________________________");
+		for( int y = 0; y < MAX_Y; y++ )
+		{
+			System.out.print(y + " | ");
+			
+			for ( int x = 0; x < MAX_X; x++)
+			{
+				
+				System.out.print(territories[y][x]+ "  ");
+			}
+			
+			System.out.println ( );
+		}	
+	}
 	
 	//Author: James Gillman
 	//MethodName: distributeArmies
@@ -727,13 +750,12 @@ public class RiskGame
 	//Parameters:
 	//Return: moveChoice
 	//Description: AI using weight to determine a move.
-	public static int projectBlossom(Territory [][]territories)
+	public static int projectBlossom(int [][]blossomArray, Territory [][]territories)
 	{
 		int moveChoice = 0;
-		int [][]blossomArray = new int[MAX_Y][MAX_X];
-		
+				
 		firstPetal(blossomArray,territories);
-		
+		secondPetal(blossomArray, territories);
 		
 			
 		return moveChoice;
@@ -765,5 +787,11 @@ public class RiskGame
 				}
 			}
 		}
+		
+	}
+	
+	public static void secondPetal(int [][]blossomArray, Territory [][]territories)
+	{
+		printBoard(blossomArray);
 	}
 }
