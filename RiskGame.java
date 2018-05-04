@@ -44,7 +44,6 @@ public class RiskGame
 		//players = input.nextInt ( );
 		
 		preGame(playerList, territories, players);
-		projectBlossom(blossomArray, territories);
 		actualGame(playerList, territories);
 		credits();
 		
@@ -139,7 +138,7 @@ public class RiskGame
 				randX = (int)(Math.random() * MAX_X);
 			}
 			territories[randY][randX].setPlayerOwns( (i%2 == 0)? p1:p2);//i%2 == 0)? p1:p2
-			territories[randY][randX].setArmies ( 1 );
+			territories[randY][randX].setArmies ( (int) (Math.random()* 8) );
 			territories[randY][randX].setxCoord ( randX); // Added by James
 			territories[randY][randX].setyCoord ( randY); // Added by James
 		
@@ -162,6 +161,7 @@ public class RiskGame
 			if (player == 2)
 			{
 				turn++;
+				Blossom.projectBlossom(territories);
 				
 			}
 			printBoard(territories);
@@ -743,55 +743,5 @@ public class RiskGame
 		}
 		
 		return adjacent;
-	}
-	
-	//Authored By: James Gillman
-	//MethodName: projectBlossom
-	//Parameters:
-	//Return: moveChoice
-	//Description: AI using weight to determine a move.
-	public static int projectBlossom(int [][]blossomArray, Territory [][]territories)
-	{
-		int moveChoice = 0;
-				
-		firstPetal(blossomArray,territories);
-		secondPetal(blossomArray, territories);
-		
-			
-		return moveChoice;
-	}
-	
-	public static void firstPetal(int [][]blossomArray, Territory [][]territories)
-	{
-		for( int y = 0; y < MAX_Y; y++ ) //Get player owns from array.
-		{	
-			
-			for ( int x = 0; x < MAX_X; x++)
-			{	
-				blossomArray[y][x] = territories[y][x].getPlayerOwns().getPlayerNumber();
-			}
-	
-		}
-		
-		for( int y = 0; y < MAX_Y; y++ ) //filling player 1 spots with army size.
-		{	
-			for ( int x = 0; x < MAX_X; x++)
-			{	
-				if (blossomArray[y][x] == 2)
-				{
-					blossomArray[y][x] = -1;
-				}
-				else
-				{
-					blossomArray[y][x] = territories[y][x].getArmies();
-				}
-			}
-		}
-		
-	}
-	
-	public static void secondPetal(int [][]blossomArray, Territory [][]territories)
-	{
-		printBoard(blossomArray);
 	}
 }

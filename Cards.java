@@ -26,15 +26,6 @@ public class Cards
 	public void setCardType(String cardType) {
 		this.cardType = cardType;
 	}
-
-	public int getCardNumber() {
-		return cardNumber;
-	}
-
-	public void setCardNumber(int cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-	
 	
 	
 }
