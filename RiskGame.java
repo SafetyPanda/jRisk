@@ -23,13 +23,12 @@ public class RiskGame
 	public static void playGame()
 	{
 		char answer = 'n'; //Does the user want to see rules?
-		int players = 0;
-		
-		
+		char blossomIsAGo = 'n';
+		char human = 'n';
+		int players = 0;	
 		
 		Player[] playerList = new Player[2];
 		Territory[][] territories = new Territory[MAX_Y][MAX_X];
-		int [][]blossomArray = new int[MAX_Y][MAX_X];
 		
 		makeLogo();
 		input.nextLine();
@@ -39,12 +38,19 @@ public class RiskGame
 		{
 			rules();
 		}
-		
-		//System.out.println("How many people are playing?");
-		//players = input.nextInt ( );
+		System.out.println("Do you want to go against the Computer? (y/n)");
+		answer = input.next().charAt(0);
+		if (answer == 'y')
+		{
+			blossomIsAGo = 'y';
+		}
+		else
+		{
+			human = 'y';
+		}
 		
 		preGame(playerList, territories, players);
-		actualGame(playerList, territories);
+		actualGame(playerList, territories, blossomIsAGo, human);
 		credits();
 		
 	}
@@ -88,11 +94,11 @@ public class RiskGame
 	public static int getPlayer(Player []playerList, int player)
 	{
 		
-		if (player != 1)
+		if (player == 2 || player == 0)
 		{
 			player = playerList[0].getPlayerNumber();
 		}
-		else
+		else if (player == 1)
 		{
 			player = playerList[1].getPlayerNumber ();
 		}
@@ -138,7 +144,7 @@ public class RiskGame
 				randX = (int)(Math.random() * MAX_X);
 			}
 			territories[randY][randX].setPlayerOwns( (i%2 == 0)? p1:p2);//i%2 == 0)? p1:p2
-			territories[randY][randX].setArmies ( (int) (Math.random()* 8) );
+			territories[randY][randX].setArmies (1);
 			territories[randY][randX].setxCoord ( randX); // Added by James
 			territories[randY][randX].setyCoord ( randY); // Added by James
 		
@@ -151,26 +157,48 @@ public class RiskGame
 	//Parameters: playerList- Array of Players. territories- Array of territories.
 	//Return: N/A
 	//Description: Runs the actual game! Lets player get into makeAMove method, checks to see if game is done and prints out board.
-	public static void actualGame(Player[] playerList, Territory[][] territories)
+	public static void actualGame(Player[] playerList, Territory[][] territories, char blossom, char human)
 	{
 		boolean gameOver = false; // Is game over?
-		int player = 0; //Which player is playing?
+		int player = 2; //Which player is playing?
 		int turn = 1; //Used to prevent players from doing anything else other than place armies on their first turn useless after the fact.
 		do
 		{
+			if (player == 0 || player == 2)
+			{
+				player = 1;
+			}
+			else
+			{
+				player = 2;
+			}
+			
+			if (blossom == 'y' && player == 2)
+			{
+				//player = getPlayer(playerList,player);
+				distributeArmies(playerList, territories, turn);
+				System.out.println(playerList[1].getArmies());
+				for (int i = 0; i < 3; i++)
+				{
+					Blossom.projectBlossom(territories, playerList[1].getArmies(), turn);
+				}
+					//player = getPlayer(playerList,player);
+			
+			}
+			
 			if (player == 2)
 			{
 				turn++;
-				Blossom.projectBlossom(territories);
+			}
+			
+			else if (player == 0 || player == 1 || (player == 2 && human == 'y'))
+			{
+				printBoard(territories);
+				distributeArmies(playerList, territories, turn);
+				//Time to run through a players move!
+				chooseTerritory(player, territories, playerList, turn);	
 				
 			}
-			printBoard(territories);
-			player = getPlayer(playerList,player);
-			distributeArmies(playerList, territories, turn);
-			
-			//Time to run through a players move!
-			chooseTerritory(player, territories, playerList, turn);
-			
 			gameOver = gameOverCheck(territories, turn);
 			
 		}while (gameOver == false);	
@@ -290,20 +318,33 @@ public class RiskGame
 	//Description: Lets player choose territory. Checks to make sure it's actually theirs, if it is their territort lets them access makeAMove.
 	public static void chooseTerritory(int player, Territory [][]territories, Player []playerList, int turn)
 	{
-		int yChoice; // What Y-Coordinate did they choose?
-		int xChoice; //What X-coordinate did they choose?
+		int yChoice = 0; // What Y-Coordinate did they choose?
+		int xChoice = 0; //What X-coordinate did they choose?
 		char mChoice = 'c'; //What move choice have they chosen?
+		boolean successful = false;
 		System.out.println("Player " + player + " It is your turn! You're on turn " + turn + ".");
 		System.out.println("You're territories have trained " + playerList[player - 1].getArmies ( ) + " armies for you to reinforce our Motherland with.");
 		do
 		{
 			
-			System.out.println("Choose x-Axis.");
-			xChoice = input.nextInt();
+			do
+			{
+				try
+				{
+					System.out.println("Choose x-Axis.");
+					xChoice = input.nextInt();
 			
-			System.out.println("Choose y-Axis.");
-			yChoice = input.nextInt ( );
-			
+					System.out.println("Choose y-Axis.");
+					yChoice = input.nextInt ( );
+					successful = true;
+				}
+				catch(Exception InputMismatchException)
+				{
+					System.out.println("DIGTS ONLY");
+					input.nextLine();
+				
+				}
+			}while(!successful);
 			if( xChoice < MAX_X && xChoice > -1)
 			{
 				if(yChoice < MAX_Y && yChoice > -1)
@@ -314,22 +355,23 @@ public class RiskGame
 					}
 			
 					else
-			
 					{
 						System.out.println("Thats not yours sir!, try again");
 						printBoard(territories);
 					}
 				}
-				else
-				{
-					System.out.println("Not a valid, input!");
+					else
+					{
+						System.out.println("Not a valid, input!");
+					}
 				}
-			}
 			else
 			{
 				System.out.println("Not a valid input!");
 			}
-		}while (mChoice != 'q' || mChoice == 'c');	
+		
+		}while (mChoice != 'q' || mChoice == 'c');
+		
 	}
 
 	//Author:James Gillman
@@ -645,6 +687,34 @@ public class RiskGame
 			System.out.println("Choose again! You have: " + currentArmies +  " Armies.");
 			moveArmies = input.nextInt ( );
 		}
+		removeArmies = currentArmies;
+		removeArmies = removeArmies - moveArmies;
+				
+		currentArmies = territories[y][x].getArmies();
+		
+		moveArmies = moveArmies + currentArmies;
+	
+		territories[yChoice][xChoice].setArmies (removeArmies);
+		territories[y][x].setArmies(moveArmies);
+
+	}
+	//MethodName: absorbTerritory
+	//Parameters: playerNumber - which player is playing currently. territories - array of territories, y - opponents y coordinate, x - opponents coordinate, ychoice - players starting coordinate, xChoice - players starting coordinate.
+	//Return: NONE
+	//Description: Same exact method as Assimilate Territory, however this is for the AI.
+	public static void absorbTerritory(Player playerNumber, Territory [][]territories, int y, int x, int yChoice, int xChoice)
+	{
+		int moveArmies; // How many armies are we moving.
+		int removeArmies; // remove armies from OG territory.
+		int currentArmies; // Current armies we have.
+		
+		System.out.println("Attacker won!");
+		
+		territories[y][x].setPlayerOwns(playerNumber);
+		territories[y][x].setArmies ( 0 );
+		currentArmies = territories[yChoice][xChoice].getArmies ( );
+		moveArmies = currentArmies / 2;
+		
 		removeArmies = currentArmies;
 		removeArmies = removeArmies - moveArmies;
 				

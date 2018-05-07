@@ -13,6 +13,13 @@ public class BlossomNode
 		this.weight = weight;
 		link = null;
 	}
+	
+	public BlossomNode() 
+	{
+		link = null;
+	}
+
+		
 	/////////////////////////
 	// GETTERS AND SETTERS //
 	/////////////////////////

@@ -3,7 +3,7 @@ public class Cards
 {
 	private String cardType;
 	private int cardsRemaning;
-	private int 
+	private int cardNumber;
 	
 	
 	
