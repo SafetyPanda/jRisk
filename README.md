@@ -12,14 +12,14 @@ Updates most likely will be sporadic.
       - Has menu for certain moves
       - Distributes Armies.
   - Does almost everything that Risk does, MINUS Cards, and Continent Bonus's.
+  -AI works!
   
 # To Do:
-
-- AI (IN PROGRESS).
 - Implement JavaFx for a nice looking board and a menu for abilities.
 - Create a class for Cards. (CREATED, BUT DOES NOTHING)
 - Link list for info on what territories player owns.
 - Let more than two players play. Started work on that. While travelling.
+- Broke 2 human player moves...
 
 # Questions?
   - Feel free to Fork, it's a very good base.
